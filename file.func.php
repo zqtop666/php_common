@@ -2,16 +2,11 @@
 //无斜杠
 define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");
 define('IN_CACHE', 1);
-//基本配置
-$CFG              = [];
-$CFG['url']       = "http://" . $_SERVER['HTTP_HOST'];
-$CFG['file_mod']  = 0777;
-$CFG['cache_dir'] = DT_ROOT . "/data/mydata/mycache";
 //其他常量
 define('DT_WIN', strpos(strtoupper(PHP_OS), 'WIN') !== false ? true : false);
-define('DT_CHMOD', ($CFG['file_mod'] && !DT_WIN) ? $CFG['file_mod'] : 0);
-define('DT_PATH', $CFG['url']);
-define('DT_CACHE', $CFG['cache_dir'] ? $CFG['cache_dir'] : DT_ROOT . '/file/cache');
+define('DT_CHMOD', (0777 && !DT_WIN) ? 0777 : 0);
+define('DT_PATH', "http://" . $_SERVER['HTTP_HOST']);
+define('DT_CACHE', DT_ROOT . "/data/mydata/mycache");
 //region 方法
 if (!function_exists('file_put_contents')) {
     define('FILE_APPEND', 8);
