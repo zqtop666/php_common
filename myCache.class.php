@@ -22,7 +22,7 @@ if (!function_exists('file_put_contents')) {
     }
 }
 
-class myCacheHelper
+class myCache
 {
     public static function file_ext($filename)
     {
