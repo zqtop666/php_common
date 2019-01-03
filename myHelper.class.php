@@ -893,4 +893,34 @@ class myHelper
         } else
             return $output;
     }
+
+    public static function setglobal($key, $value, $group = null)
+    {
+        global $_G;
+        $key = explode('/', $group === null ? $key : $group . '/' . $key);
+        $p   = &$_G;
+        foreach ($key as $k) {
+            if (!isset($p[$k]) || !is_array($p[$k])) {
+                $p[$k] = array();
+            }
+            $p = &$p[$k];
+        }
+        $p = $value;
+        return true;
+    }
+
+    public static function getglobal($key, $group = null)
+    {
+        global $_G;
+        $key = explode('/', $group === null ? $key : $group . '/' . $key);
+        $v   = &$_G;
+        foreach ($key as $k) {
+            if (!isset($v[$k])) {
+                return null;
+            }
+            $v = &$v[$k];
+        }
+        return $v;
+    }
+
 }
