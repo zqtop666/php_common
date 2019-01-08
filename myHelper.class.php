@@ -923,4 +923,33 @@ class myHelper
         return $v;
     }
 
+    /***
+     * @param $key $_FILE的key
+     * @param $extarr 扩展名数组
+     * @param $path 虚拟路径斜杠开头
+     * @param $baseroot 物理路径末尾不要加斜杠
+     * @return string 上传失败返回错误信息成功返回空文件路径保存在$_G[zq][file]中
+     */
+    public static function upfile($key, $extarr, $path, $baseroot)
+    {
+        if ($_FILES[$key]['name']) {
+            $ext      = strtolower(pathinfo($_FILES[$key]['name'], PATHINFO_EXTENSION));
+            $filename = time() . rand(111, 999) . '.' . $ext;
+            if (!in_array($ext, $extarr)) {
+                return "文件必须是" . implode(',', $extarr) . "格式！";
+            } else {
+                if (!file_exists($baseroot . $path . '/')) {
+                    mkdir($baseroot . $path . '/', 0777, true);
+                }
+                if (move_uploaded_file($_FILES[$key]['tmp_name'], $baseroot . $path . '/' . $filename)) {
+                    self::setglobal('zq/file', $path . '/' . $filename);
+                    return "";
+                } else {
+                    return "封面图片上传失败！";
+                }
+            }
+        } else {
+            return "封面图片必须上传！";
+        }
+    }
 }
