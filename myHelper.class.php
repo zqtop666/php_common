@@ -926,11 +926,11 @@ class myHelper
     /***
      * @param $key FILE的key|上传失败返回错误信息_成功返回空文件_路径保存在_G_zq_file中
      * @param $extarr 扩展名一维数组
-     * @param $path 虚拟路径斜杠开头
+     * @param $vpath 虚拟路径斜杠开头
      * @param $baseroot 物理路径末尾不要加斜杠
      * @return string
      */
-    public static function upfile($key, $extarr, $path, $baseroot)
+    public static function upfile($key, $extarr, $vpath, $baseroot)
     {
         if ($_FILES[$key]['name']) {
             $ext      = strtolower(pathinfo($_FILES[$key]['name'], PATHINFO_EXTENSION));
@@ -938,11 +938,11 @@ class myHelper
             if (!in_array($ext, $extarr)) {
                 return "文件必须是" . implode(',', $extarr) . "格式！";
             } else {
-                if (!file_exists($baseroot . $path . '/')) {
-                    mkdir($baseroot . $path . '/', 0777, true);
+                if (!file_exists($baseroot . $vpath . '/')) {
+                    mkdir($baseroot . $vpath . '/', 0777, true);
                 }
-                if (move_uploaded_file($_FILES[$key]['tmp_name'], $baseroot . $path . '/' . $filename)) {
-                    self::setglobal('zq/file', $path . '/' . $filename);
+                if (move_uploaded_file($_FILES[$key]['tmp_name'], $baseroot . $vpath . '/' . $filename)) {
+                    self::setglobal('zq/file', $vpath . '/' . $filename);
                     return "";
                 } else {
                     return "封面图片上传失败！";
