@@ -924,11 +924,11 @@ class myHelper
     }
 
     /***
-     * @param $key $_FILE的key
-     * @param $extarr 扩展名数组
+     * @param $key FILE的key|上传失败返回错误信息_成功返回空文件_路径保存在_G_zq_file中
+     * @param $extarr 扩展名一维数组
      * @param $path 虚拟路径斜杠开头
      * @param $baseroot 物理路径末尾不要加斜杠
-     * @return string 上传失败返回错误信息成功返回空文件路径保存在$_G[zq][file]中
+     * @return string
      */
     public static function upfile($key, $extarr, $path, $baseroot)
     {
