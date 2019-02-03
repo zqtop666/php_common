@@ -1,0 +1,56 @@
+<html>
+<head>
+    <!--{csstemplate}-->
+    <script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '$_G[dynamicurl]';</script>
+    <script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+    <!--{if $_G['basescript'] == 'forum' || $_G['basescript'] == 'group'}-->
+    <script type="text/javascript" src="{$_G[setting][jspath]}forum.js?{VERHASH}"></script>
+    <!--{elseif $_G['basescript'] == 'home' || $_G['basescript'] == 'userapp'}-->
+    <script type="text/javascript" src="{$_G[setting][jspath]}home.js?{VERHASH}"></script>
+    <!--{elseif $_G['basescript'] == 'portal'}-->
+    <script type="text/javascript" src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
+    <!--{/if}-->
+    <!--{if $_G['basescript'] != 'portal' && $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
+    <script type="text/javascript" src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
+    <!--{/if}-->
+    <script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '$_G[dynamicurl]';</script>
+    <script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+    <!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
+    <link rel="stylesheet" type="text/css" id="diy_common" href="{$_G['setting']['csspath']}{STYLEID}_css_diy.css?{VERHASH}"/>
+    <!--{/if}-->
+</head>
+<body>
+<!--header start-->
+<!--少了这个diy样式选项卡打不开！！！-->
+<style id="diy_style" type="text/css"></style>    
+<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
+<!--{template common/header_diy}-->
+<!--{/if}-->
+<!--{if check_diy_perm($topic)}-->
+<!--{template common/header_diynav}-->
+<!--{/if}-->
+<!--{if CURMODULE == 'topic' && $topic && empty($topic['useheader']) && check_diy_perm($topic)}-->
+$diynav
+<!--{/if}-->
+<div class="wp" style="width:100%;">
+<!--header end-->
+
+
+......
+......
+
+
+<!--footer start-->
+<!--{if $_GET['diy'] == 'yes'}-->
+<!--{if check_diy_perm($topic) && (empty($do) || $do != 'index')}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}portal_diy{if !check_diy_perm($topic, 'layout')}_data{/if}.js?{VERHASH}"></script>
+<!--{/if}-->
+<!--{if $space['self'] && CURMODULE == 'space' && $do == 'index'}-->
+<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+<script type="text/javascript" src="{$_G[setting][jspath]}space_diy.js?{VERHASH}"></script>
+<!--{/if}-->
+<!--{/if}-->
+<!--fotter end-->
+</body>
+</html>
