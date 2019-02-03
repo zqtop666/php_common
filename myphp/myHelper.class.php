@@ -945,11 +945,11 @@ class myHelper
                     self::setglobal('zq/file', $vpath . '/' . $filename);
                     return "";
                 } else {
-                    return "封面图片上传失败！";
+                    return "图片上传失败！";
                 }
             }
         } else {
-            return "封面图片必须上传！";
+            return "图片必须上传！";
         }
     }
 }
