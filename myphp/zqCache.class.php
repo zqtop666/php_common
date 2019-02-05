@@ -24,7 +24,7 @@ if (!function_exists('file_put_contents')) {
     }
 }
 
-class myCache
+class zqCache
 {
     public static function file_ext($filename)
     {

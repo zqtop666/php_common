@@ -5,7 +5,7 @@
  * @author www.shouce.ren
  *
  */
-class myHelper
+class zqHelper
 {
     /**
      * 判断当前服务器系统
