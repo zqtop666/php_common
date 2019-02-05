@@ -1,12 +1,14 @@
 <?php
 //无斜杠
-define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");  //_FILE_在二级目录
+//_FILE_在二级目录
+define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");
 define('IN_CACHE', 1);
 //其他常量
 define('DT_WIN', strpos(strtoupper(PHP_OS), 'WIN') !== false ? true : false);
 define('DT_CHMOD', (0777 && !DT_WIN) ? 0777 : 0);
 define('DT_PATH', "http://" . $_SERVER['HTTP_HOST']);
-define('DT_CACHE', DT_ROOT . "/data/mydata/mycache");                  //DT_CACHE在/data/mydata/mycache
+//DT_CACHE在/zqCacheData/
+define('DT_CACHE', DT_ROOT . "/zqCacheData");
 //region 方法
 if (!function_exists('file_put_contents')) {
     define('FILE_APPEND', 8);
