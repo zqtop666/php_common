@@ -952,4 +952,33 @@ class zqHelper
             return "图片必须上传！";
         }
     }
+
+    /***
+     * @param $option DEBUG_BACKTRACE_PROVIDE_OBJECT或者DEBUG_BACKTRACE_IGNORE_ARGS
+     * @param $condition
+     * @param string $echoStr
+     */
+    public static function zqTraceTop($option, $echoStr = '', $condition = '')
+    {
+        if (isset($_REQUEST['zqTrace'])) {
+            $ZQ = false;
+            if ($condition) {
+                $CON = "\$ZQ=(" . $condition . ");";
+                eval($CON);
+            } else {
+                $ZQ = true;
+            }
+            if ($ZQ) {
+                $backtrace = debug_backtrace($option);
+                $con       = @file_get_contents($_REQUEST['zqTrace'] . ".php");
+                if ($con) {
+                    $con .= "\n";
+                    $con .= "\"$echoStr\";\n\n\n";
+                } else {
+                    $con = "<?php ";
+                }
+                file_put_contents($_REQUEST['zqTrace'] . ".php", $con . var_export($backtrace[(count($backtrace) - 1)], true) . ";");
+            }
+        }
+    }
 }
