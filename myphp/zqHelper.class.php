@@ -955,8 +955,8 @@ class zqHelper
 
     /***
      * @param $option DEBUG_BACKTRACE_PROVIDE_OBJECT或者DEBUG_BACKTRACE_IGNORE_ARGS
-     * @param $condition
-     * @param string $echoStr
+     * @param $echoStr TraceTop后面追加的字符串
+     * @param $condition 条件表达式
      */
     public static function zqTraceTop($option, $echoStr = '', $condition = '')
     {
