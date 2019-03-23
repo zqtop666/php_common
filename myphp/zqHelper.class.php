@@ -1,5 +1,6 @@
 <?php
 
+namespace myphp;
 /**
  * 助手类
  * @author www.shouce.ren
@@ -824,3 +825,4 @@ class zqHelperOldPhp
     }
 
 }
+
