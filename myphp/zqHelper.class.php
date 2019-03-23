@@ -981,4 +981,13 @@ class zqHelper
             }
         }
     }
+
+    public static function zqdebuginfo($var, $type = 'print')
+    {
+        $var = var_export($var, true);
+        if ($type === 'print')
+            echo "<zqdebug style='display:none;'>$var</zqdebug>";
+        else if ($type === 'file')
+            file_put_contents('zadebug_' . time() . '.txt', $var);
+    }
 }
