@@ -1,5 +1,4 @@
 <?php
-//无斜杠
 //_FILE_在二级目录
 define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");
 define('IN_CACHE', 1);

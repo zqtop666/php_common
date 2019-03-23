@@ -8,19 +8,6 @@
 class zqHelper
 {
     /**
-     * 判断当前服务器系统
-     * @return string
-     */
-    public static function getOS()
-    {
-        if (PATH_SEPARATOR == ':') {
-            return 'Linux';
-        } else {
-            return 'Windows';
-        }
-    }
-
-    /**
      * 当前微妙数
      * @return number
      */
@@ -28,38 +15,6 @@ class zqHelper
     {
         list ($usec, $sec) = explode(" ", microtime());
         return (( float )$usec + ( float )$sec);
-    }
-
-    /**
-     * 切割utf-8格式的字符串(一个汉字或者字符占一个字节)
-     *
-     * @author zhao jinhan
-     * @version v1.0.0
-     *
-     */
-    public static function truncate_utf8_string($string, $length, $etc = '...')
-    {
-        $result = '';
-        $string = html_entity_decode(trim(strip_tags($string)), ENT_QUOTES, 'UTF-8');
-        $strlen = strlen($string);
-        for ($i = 0; (($i < $strlen) && ($length > 0)); $i++) {
-            if ($number = strpos(str_pad(decbin(ord(substr($string, $i, 1))), 8, '0', STR_PAD_LEFT), '0')) {
-                if ($length < 1.0) {
-                    break;
-                }
-                $result .= substr($string, $i, $number);
-                $length -= 1.0;
-                $i      += $number - 1;
-            } else {
-                $result .= substr($string, $i, 1);
-                $length -= 0.5;
-            }
-        }
-        $result = htmlspecialchars($result, ENT_QUOTES, 'UTF-8');
-        if ($i < $strlen) {
-            $result .= $etc;
-        }
-        return $result;
     }
 
     /**
@@ -162,48 +117,6 @@ class zqHelper
     }
 
     /**
-     * 返回二维数组中某个键名的所有值
-     * @param input $array
-     * @param string $key
-     * @return array
-     */
-    public static function array_key_values($array = array(), $key = '')
-    {
-        $ret = array();
-        foreach ((array)$array as $k => $v) {
-            $ret[$k] = $v[$key];
-        }
-        return $ret;
-    }
-
-    /**
-     * 判断 文件/目录 是否可写（取代系统自带的 is_writeable 函数）
-     * @param string $file 文件/目录
-     * @return boolean
-     */
-    public static function is_writeable($file)
-    {
-        if (is_dir($file)) {
-            $dir = $file;
-            if ($fp = @fopen("$dir/test.txt", 'w')) {
-                @fclose($fp);
-                @unlink("$dir/test.txt");
-                $writeable = 1;
-            } else {
-                $writeable = 0;
-            }
-        } else {
-            if ($fp = @fopen($file, 'a+')) {
-                @fclose($fp);
-                $writeable = 1;
-            } else {
-                $writeable = 0;
-            }
-        }
-        return $writeable;
-    }
-
-    /**
      * 格式化单位
      */
     public static function byteFormat($size, $dec = 2)
@@ -295,37 +208,6 @@ class zqHelper
     }
 
     /**
-     * 查找ip是否在某个段位里面
-     * @param string $ip 要查询的ip
-     * @param $arrIP     禁止的ip
-     * @return boolean
-     */
-    public static function ipAccess($ip = '0.0.0.0', $arrIP = array())
-    {
-        $access = true;
-        $ip && $arr_cur_ip = explode('.', $ip);
-        foreach ((array)$arrIP as $key => $value) {
-            if ($value == '*.*.*.*') {
-                $access = false; //禁止所有
-                break;
-            }
-            $tmp_arr = explode('.', $value);
-            if (($arr_cur_ip[0] == $tmp_arr[0]) && ($arr_cur_ip[1] == $tmp_arr[1])) {
-                //前两段相同
-                if (($arr_cur_ip[2] == $tmp_arr[2]) || ($tmp_arr[2] == '*')) {
-                    //第三段为* 或者相同
-                    if (($arr_cur_ip[3] == $tmp_arr[3]) || ($tmp_arr[3] == '*')) {
-                        //第四段为* 或者相同
-                        $access = false; //在禁止ip列，则禁止访问
-                        break;
-                    }
-                }
-            }
-        }
-        return $access;
-    }
-
-    /**
      * @param string $string 原文或者密文
      * @param string $operation 操作(ENCODE | DECODE), 默认为 DECODE
      * @param string $key 密钥
@@ -385,11 +267,6 @@ class zqHelper
         } else {
             return $keyc . str_replace('=', '', base64_encode($result));
         }
-    }
-
-    public static function gbkToUtf8($str)
-    {
-        return iconv("GBK", "UTF-8", $str);
     }
 
     /**
@@ -476,64 +353,6 @@ class zqHelper
     }
 
     /**
-     * 页面跳转
-     * @param string $url
-     * @return js
-     */
-    public static function headerUrl($url)
-    {
-        echo "<script type='text/javascript'>location.href='{$url}';</script>";
-        exit();
-    }
-    #region alert框相关
-
-    /**
-     * js 弹窗并且跳转
-     * @param string $_info
-     * @param string $_url
-     * @return js
-     */
-    public static function alertLocation($_info, $_url, $noExit = false)
-    {
-        echo "<script type='text/javascript'>alert('$_info');location.href='$_url';</script>";
-        $noExit or exit();
-    }
-
-    /**
-     * js 弹窗返回
-     * @param string $_info
-     * @return js
-     */
-    public static function alertBack($_info, $noExit = false)
-    {
-        echo "<script type='text/javascript'>alert('$_info');history.back();</script>";
-        $noExit or exit();
-    }
-
-    /**
-     * 弹窗关闭
-     * @param string $_info
-     * @return js
-     */
-    public static function alertClose($_info, $noExit = false)
-    {
-        echo "<script type='text/javascript'>alert('$_info');close();</script>";
-        $noExit or exit();
-    }
-
-    /**
-     * 弹窗
-     * @param string $_info
-     * @return js
-     */
-    public static function alert($_info, $noExit = false)
-    {
-        echo "<script type='text/javascript'>alert('$_info');</script>";
-        $noExit or exit();
-    }
-    #endregion
-
-    /**
      * 清理session
      */
     public static function unSession()
@@ -541,70 +360,6 @@ class zqHelper
         if (session_start()) {
             session_destroy();
         }
-    }
-
-    /**
-     * 验证是否为空
-     * @param string $str
-     * @param string $name
-     * @return bool (true or false)
-     */
-    static function validateEmpty($str, $name)
-    {
-        if (empty($str)) {
-            self::alertBack('警告：' . $name . '不能为空！');
-        }
-    }
-
-    /**
-     * 验证是否相同
-     * @param string $str1
-     * @param string $str2
-     * @param string $alert
-     * @return JS
-     */
-    static function validateAll($str1, $str2, $alert)
-    {
-        if ($str1 != $str2) {
-            self::alertBack('警告：' . $alert);
-        }
-    }
-
-    /**
-     * 验证ID(数字)
-     * @param Number $id
-     * @return JS
-     */
-    static function validateId($id)
-    {
-        if (empty($id) || !is_numeric($id)) {
-            self::alertBack('警告：参数错误！');
-        }
-    }
-
-    /**
-     * 格式化字符串
-     * @param string $str
-     * @return string
-     */
-    public static function formatStr($str)
-    {
-        $arr = array(' ', '	', '&', '@', '#', '%', '\'', '"', '\\', '/', '.', ',', '$', '^', '*', '(', ')', '[', ']', '{', '}', '|', '~', '`', '?', '!', ';', ':', '-', '_', '+', '=');
-        foreach ($arr as $v) {
-            $str = str_replace($v, '', $str);
-        }
-        return $str;
-    }
-
-    /**
-     * 格式化时间
-     * @param int $time 时间戳
-     * @return string
-     */
-    public static function formatDate($time = 'default')
-    {
-        $date = $time == 'default' ? date('Y-m-d H:i:s', time()) : date('Y-m-d H:i:s', $time);
-        return $date;
     }
 
     /**
@@ -722,38 +477,6 @@ class zqHelper
                 return false;
             }
         }
-    }
-
-    /**
-     *  utf-8中文截取，单字节截取模式
-     *
-     * @access public
-     * @param string $str 需要截取的字符串
-     * @param int $slen 截取的长度
-     * @param int $startdd 开始标记处
-     * @return string
-     */
-    public static function cn_substr_utf8($str, $length, $start = 0)
-    {
-        if (strlen($str) < $start + 1) {
-            return '';
-        }
-        preg_match_all("/./su", $str, $ar);
-        $str  = '';
-        $tstr = '';
-        //为了兼容mysql4.1以下版本,与数据库varchar一致,这里使用按字节截取
-        for ($i = 0; isset($ar[0][$i]); $i++) {
-            if (strlen($tstr) < $start) {
-                $tstr .= $ar[0][$i];
-            } else {
-                if (strlen($str) < $length + strlen($ar[0][$i])) {
-                    $str .= $ar[0][$i];
-                } else {
-                    break;
-                }
-            }
-        }
-        return $str;
     }
 
     /**
@@ -923,12 +646,75 @@ class zqHelper
         return $v;
     }
 
+    static public function curlGet($url, $timeout = 5, $header = '')
+    {
+        $header1 = "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.12) Gecko/20181026 Firefox/3.6.12\r\n";
+        $header1 .= "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
+        $header1 .= "Accept-language: zh-cn,zh;q=0.5\r\n";
+        $header1 .= "Accept-Charset: GB2312,utf-8;q=0.7,*;q=0.7\r\n";
+        $header = empty($header) ? $header1 : $header;
+        $ch = curl_init();
+
+        if (stripos($url, 'https://') !== false) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSLVERSION, 1);
+        }
+
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, C('curl_http_version'));
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array($header));
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+    static public function curlPost($url, $post_data = array(), $timeout = 5, $header = '', $data_type = '')
+    {
+        $header = empty($header) ? '' : $header;
+
+        if ($data_type == 'json') {
+            $post_string = json_encode($post_data);
+        }
+        else if (is_array($post_data)) {
+            $post_string = http_build_query($post_data, '', '&');
+        }
+        else {
+            $post_string = $post_data;
+        }
+
+        $ch = curl_init();
+
+        if (stripos($url, 'https://') !== false) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSLVERSION, 1);
+        }
+
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, C('curl_http_version'));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_string);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array($header));
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+
     /***
-     * @param $key FILE的key|上传失败返回错误信息_成功返回空文件_路径保存在_G_zq_file中
+     * 上传文件
+     * @param $key FILE的key
      * @param $extarr 扩展名一维数组
      * @param $vpath 虚拟路径斜杠开头
      * @param $baseroot 物理路径末尾不要加斜杠
-     * @return string
+     * @return 上传失败返回错误信息_成功返回空_文件路径保存在G_zq_file中
      */
     public static function upfile($key, $extarr, $vpath, $baseroot)
     {
@@ -982,12 +768,59 @@ class zqHelper
         }
     }
 
-    public static function zqdebuginfo($var, $type = 'print')
+    public static function debuginfo($var, $type = 'print')
     {
         $var = var_export($var, true);
         if ($type === 'print')
             echo "<zqdebug style='display:none;'>$var</zqdebug>";
         else if ($type === 'file')
-            file_put_contents('zadebug_' . time() . '.txt', $var);
+            file_put_contents('zqdebug_' . time() . '.txt', $var);
     }
+}
+
+class zqHelperOldPhp
+{
+
+    /**
+     * 返回二维数组中某个键名的所有值
+     * @param array $array
+     * @param string $key
+     * @return array
+     */
+    public static function array_key_values($array = array(), $key = '')
+    {
+        $ret = array();
+        foreach ((array)$array as $k => $v) {
+            $ret[$k] = $v[$key];
+        }
+        return $ret;
+    }
+
+    /**
+     * 判断 文件/目录 是否可写（取代系统自带的 is_writeable 函数）
+     * @param string $file 文件/目录
+     * @return boolean
+     */
+    public static function is_writeable($file)
+    {
+        if (is_dir($file)) {
+            $dir = $file;
+            if ($fp = @fopen("$dir/test.txt", 'w')) {
+                @fclose($fp);
+                @unlink("$dir/test.txt");
+                $writeable = 1;
+            } else {
+                $writeable = 0;
+            }
+        } else {
+            if ($fp = @fopen($file, 'a+')) {
+                @fclose($fp);
+                $writeable = 1;
+            } else {
+                $writeable = 0;
+            }
+        }
+        return $writeable;
+    }
+
 }
