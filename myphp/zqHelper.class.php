@@ -8,6 +8,11 @@ namespace myphp;
  */
 class zqHelper
 {
+    public static function geter()
+    {
+        print_r(error_get_last());
+    }
+
     /**
      * 当前微妙数
      * @return number
@@ -653,8 +658,8 @@ class zqHelper
         $header1 .= "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
         $header1 .= "Accept-language: zh-cn,zh;q=0.5\r\n";
         $header1 .= "Accept-Charset: GB2312,utf-8;q=0.7,*;q=0.7\r\n";
-        $header = empty($header) ? $header1 : $header;
-        $ch = curl_init();
+        $header  = empty($header) ? $header1 : $header;
+        $ch      = curl_init();
 
         if (stripos($url, 'https://') !== false) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -679,11 +684,9 @@ class zqHelper
 
         if ($data_type == 'json') {
             $post_string = json_encode($post_data);
-        }
-        else if (is_array($post_data)) {
+        } else if (is_array($post_data)) {
             $post_string = http_build_query($post_data, '', '&');
-        }
-        else {
+        } else {
             $post_string = $post_data;
         }
 
