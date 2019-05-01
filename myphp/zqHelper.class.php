@@ -62,7 +62,7 @@ class zqHelper
         }
         $preg = array(
             "gb2312" => "/^([\xA1-\xF7][\xA0-\xFE])+$/", //正则判断是否是gb2312
-            "utf-8"  => "/^[\x{4E00}-\x{9FA5}]+$/u",      //正则判断是否是汉字(utf8编码的条件了)，这个范围实际上已经包含了繁体中文字了
+            "utf-8" => "/^[\x{4E00}-\x{9FA5}]+$/u",      //正则判断是否是汉字(utf8编码的条件了)，这个范围实际上已经包含了繁体中文字了
         );
         if ($default == 'gb2312') {
             $option = 'utf-8';
@@ -127,7 +127,7 @@ class zqHelper
      */
     public static function byteFormat($size, $dec = 2)
     {
-        $a   = array("B", "KB", "MB", "GB", "TB", "PB");
+        $a = array("B", "KB", "MB", "GB", "TB", "PB");
         $pos = 0;
         while ($size >= 1024) {
             $size /= 1024;
@@ -151,7 +151,7 @@ class zqHelper
         $originalfilename = '';
         //图片的后缀名
         $ext = '';
-        $ch  = curl_init($url);
+        $ch = curl_init($url);
         //设置curl_exec返回的值包含Http头
         curl_setopt($ch, CURLOPT_HEADER, 1);
         //设置curl_exec返回的值包含Http内容
@@ -171,7 +171,7 @@ class zqHelper
             //倒数第二段是服务器最后一次response的http头
             $header = $httpArr[count($httpArr) - 2];
             //倒数第一段是服务器最后一次response的内容
-            $body   = $httpArr[count($httpArr) - 1];
+            $body = $httpArr[count($httpArr) - 1];
             $header .= "\r\n";
             //获取最后一次response的header信息
             preg_match_all('/([a-z0-9-_]+):\s*([^\r\n]+)\r\n/i', $header, $matches);
@@ -185,7 +185,7 @@ class zqHelper
             //获取图片后缀名
             if (0 < preg_match('{(?:[^\/\\\\]+)\.(jpg|jpeg|gif|png|bmp)$}i', $url, $matches)) {
                 $originalfilename = $matches[0];
-                $ext              = $matches[1];
+                $ext = $matches[1];
             } else {
                 if (array_key_exists('Content-Type', $responseHeaders)) {
                     if (0 < preg_match('{image/(\w+)}i', $responseHeaders['Content-Type'], $extmatches)) {
@@ -199,7 +199,7 @@ class zqHelper
                 if (!is_dir($filepath)) {
                     mkdir($filepath, 0777, true);
                 }
-                $filepath   .= '/' . $filename . ".$ext";
+                $filepath .= '/' . $filename . ".$ext";
                 $local_file = fopen($filepath, 'w');
                 if (false !== $local_file) {
                     if (false !== fwrite($local_file, $body)) {
@@ -236,33 +236,33 @@ class zqHelper
         // 取值越大，密文变动规律越大，密文变化 = 16 的 $ckey_length 次方
         // 当此值为 0 时，则不产生随机密钥
 
-        $key           = md5($key ? $key : 'key'); //这里可以填写默认key值
-        $keya          = md5(substr($key, 0, 16));
-        $keyb          = md5(substr($key, 16, 16));
-        $keyc          = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
-        $cryptkey      = $keya . md5($keya . $keyc);
-        $key_length    = strlen($cryptkey);
-        $string        = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0) . substr(md5($string . $keyb), 0, 16) . $string;
+        $key = md5($key ? $key : 'key'); //这里可以填写默认key值
+        $keya = md5(substr($key, 0, 16));
+        $keyb = md5(substr($key, 16, 16));
+        $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
+        $cryptkey = $keya . md5($keya . $keyc);
+        $key_length = strlen($cryptkey);
+        $string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0) . substr(md5($string . $keyb), 0, 16) . $string;
         $string_length = strlen($string);
-        $result        = '';
-        $box           = range(0, 255);
-        $rndkey        = array();
+        $result = '';
+        $box = range(0, 255);
+        $rndkey = array();
         for ($i = 0; $i <= 255; $i++) {
             $rndkey [$i] = ord($cryptkey [$i % $key_length]);
         }
         for ($j = $i = 0; $i < 256; $i++) {
-            $j        = ($j + $box [$i] + $rndkey [$i]) % 256;
-            $tmp      = $box [$i];
+            $j = ($j + $box [$i] + $rndkey [$i]) % 256;
+            $tmp = $box [$i];
             $box [$i] = $box [$j];
             $box [$j] = $tmp;
         }
         for ($a = $j = $i = 0; $i < $string_length; $i++) {
-            $a        = ($a + 1) % 256;
-            $j        = ($j + $box [$a]) % 256;
-            $tmp      = $box [$a];
+            $a = ($a + 1) % 256;
+            $j = ($j + $box [$a]) % 256;
+            $tmp = $box [$a];
             $box [$a] = $box [$j];
             $box [$j] = $tmp;
-            $result   .= chr(ord($string [$i]) ^ ($box [($box [$a] + $box [$j]) % 256]));
+            $result .= chr(ord($string [$i]) ^ ($box [($box [$a] + $box [$j]) % 256]));
         }
         if ($operation == 'DECODE') {
             if ((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26) . $keyb), 0, 16)) {
@@ -283,8 +283,8 @@ class zqHelper
     public static function deepScanDir($dir)
     {
         $fileArr = array();
-        $dirArr  = array();
-        $dir     = rtrim($dir, '//');
+        $dirArr = array();
+        $dir = rtrim($dir, '//');
         if (is_dir($dir)) {
             $dirHandle = opendir($dir);
             while (false !== ($fileName = readdir($dirHandle))) {
@@ -293,9 +293,9 @@ class zqHelper
                     $fileArr[] = $subFile;
                 } elseif (is_dir($subFile) && str_replace('.', '', $fileName) != '') {
                     $dirArr[] = $subFile;
-                    $arr      = self::deepScanDir($subFile);
-                    $dirArr   = array_merge($dirArr, $arr['dir']);
-                    $fileArr  = array_merge($fileArr, $arr['file']);
+                    $arr = self::deepScanDir($subFile);
+                    $dirArr = array_merge($dirArr, $arr['dir']);
+                    $fileArr = array_merge($fileArr, $arr['file']);
                 }
             }
             closedir($dirHandle);
@@ -495,15 +495,15 @@ class zqHelper
      */
     public static function resizeImage($im, $maxwidth, $maxheight, $name, $filetype)
     {
-        $pic_width  = imagesx($im);
+        $pic_width = imagesx($im);
         $pic_height = imagesy($im);
         if (($maxwidth && $pic_width > $maxwidth) || ($maxheight && $pic_height > $maxheight)) {
             if ($maxwidth && $pic_width > $maxwidth) {
-                $widthratio      = $maxwidth / $pic_width;
+                $widthratio = $maxwidth / $pic_width;
                 $resizewidth_tag = true;
             }
             if ($maxheight && $pic_height > $maxheight) {
-                $heightratio      = $maxheight / $pic_height;
+                $heightratio = $maxheight / $pic_height;
                 $resizeheight_tag = true;
             }
             if ($resizewidth_tag && $resizeheight_tag) {
@@ -519,7 +519,7 @@ class zqHelper
             if ($resizeheight_tag && !$resizewidth_tag) {
                 $ratio = $heightratio;
             }
-            $newwidth  = $pic_width * $ratio;
+            $newwidth = $pic_width * $ratio;
             $newheight = $pic_height * $ratio;
             if (function_exists("imagecopyresampled")) {
                 $newim = imagecreatetruecolor($newwidth, $newheight);
@@ -550,16 +550,16 @@ class zqHelper
         }
         $file_name = basename($file_path); //获取文件名称
         $file_size = filesize($file_path); //获取文件大小
-        $fp        = fopen($file_path, 'r'); //以只读的方式打开文件
+        $fp = fopen($file_path, 'r'); //以只读的方式打开文件
         header("Content-type: application/octet-stream");
         header("Accept-Ranges: bytes");
         header("Accept-Length: {$file_size}");
         header("Content-Disposition: attachment;filename={$file_name}");
-        $buffer     = 1024;
+        $buffer = 1024;
         $file_count = 0;
         //判断文件是否结束
         while (!feof($fp) && ($file_size - $file_count > 0)) {
-            $file_data  = fread($fp, $buffer);
+            $file_data = fread($fp, $buffer);
             $file_count += $buffer;
             echo $file_data;
         }
@@ -569,8 +569,8 @@ class zqHelper
     public static function getCwdOL()
     {
         $total = $_SERVER[PHP_SELF];
-        $file  = explode("/", $total);
-        $file  = $file[sizeof($file) - 1];
+        $file = explode("/", $total);
+        $file = $file[sizeof($file) - 1];
         return substr($total, 0, strlen($total) - strlen($file) - 1);
     }
 
@@ -585,7 +585,7 @@ class zqHelper
     {
         $host = $_SERVER[SERVER_NAME];
         $port = ($_SERVER[SERVER_PORT] == "80") ? "" : ":$_SERVER[SERVER_PORT]";
-        $uri  = $_SERVER[REQUEST_URI];
+        $uri = $_SERVER[REQUEST_URI];
         return "http://" . $host . $port . $uri;
     }
 
@@ -627,7 +627,7 @@ class zqHelper
     {
         global $_G;
         $key = explode('/', $group === null ? $key : $group . '/' . $key);
-        $p   = &$_G;
+        $p = &$_G;
         foreach ($key as $k) {
             if (!isset($p[$k]) || !is_array($p[$k])) {
                 $p[$k] = array();
@@ -642,7 +642,7 @@ class zqHelper
     {
         global $_G;
         $key = explode('/', $group === null ? $key : $group . '/' . $key);
-        $v   = &$_G;
+        $v = &$_G;
         foreach ($key as $k) {
             if (!isset($v[$k])) {
                 return null;
@@ -658,8 +658,8 @@ class zqHelper
         $header1 .= "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
         $header1 .= "Accept-language: zh-cn,zh;q=0.5\r\n";
         $header1 .= "Accept-Charset: GB2312,utf-8;q=0.7,*;q=0.7\r\n";
-        $header  = empty($header) ? $header1 : $header;
-        $ch      = curl_init();
+        $header = empty($header) ? $header1 : $header;
+        $ch = curl_init();
 
         if (stripos($url, 'https://') !== false) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -723,7 +723,7 @@ class zqHelper
     public static function upfile($key, $extarr, $vpath, $baseroot)
     {
         if ($_FILES[$key]['name']) {
-            $ext      = strtolower(pathinfo($_FILES[$key]['name'], PATHINFO_EXTENSION));
+            $ext = strtolower(pathinfo($_FILES[$key]['name'], PATHINFO_EXTENSION));
             $filename = time() . rand(111, 999) . '.' . $ext;
             if (!in_array($ext, $extarr)) {
                 return "文件必须是" . implode(',', $extarr) . "格式！";
@@ -760,7 +760,7 @@ class zqHelper
             }
             if ($ZQ) {
                 $backtrace = debug_backtrace($option);
-                $con       = @file_get_contents($_REQUEST['zqTrace'] . ".php");
+                $con = @file_get_contents($_REQUEST['zqTrace'] . ".php");
                 if ($con) {
                     $con .= "\n";
                     $con .= "\"$echoStr\";\n\n\n";
@@ -779,6 +779,17 @@ class zqHelper
             echo "<zqdebug style='display:none;'>$var</zqdebug>";
         else if ($type === 'file')
             file_put_contents('zqdebug_' . time() . '.txt', $var);
+    }
+
+    /**
+     * @param $twoArray
+     * @param $columnKey
+     * @param $val
+     * @return false|int|string 二维数组查找
+     */
+    public static function twoArraySearch($twoArray, $columnKey, $val)
+    {
+        return array_search($val, array_column($twoArray, $columnKey));
     }
 }
 
