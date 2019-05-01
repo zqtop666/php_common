@@ -772,7 +772,7 @@ class zqHelper
         }
     }
 
-    public static function debuginfo($var, $type = 'print')
+    public static function mydebuginfo($var, $type = 'print')
     {
         $var = var_export($var, true);
         if ($type === 'print')
