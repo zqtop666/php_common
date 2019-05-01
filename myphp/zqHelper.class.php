@@ -566,7 +566,7 @@ class zqHelper
         fclose($fp); //关闭文件
     }
 
-    public static function getcwdOL()
+    public static function getCwdOL()
     {
         $total = $_SERVER[PHP_SELF];
         $file  = explode("/", $total);
@@ -828,4 +828,3 @@ class zqHelperOldPhp
     }
 
 }
-

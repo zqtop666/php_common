@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="840bf2c1-13ea-4dc0-9022-d08cffdaf54b" name="Default Changelist" comment="" />
+    <list default="true" id="840bf2c1-13ea-4dc0-9022-d08cffdaf54b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myphp/zqHelper.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/myphp/zqHelper.class.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +26,20 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/myphp/zqHelper.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="451">
+              <caret line="828" lean-forward="true" selection-start-line="828" selection-end-line="828" />
+              <folding>
+                <element signature="n#style#0;n#zqdebug#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -51,7 +67,7 @@
       <server host="stshshop.91waibaoyun.com" id="4d5360dd-477c-41b4-ae72-4bd85c073a6f" name="stshshop.91waibaoyun.com" />
     </servers>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="960" />
@@ -61,6 +77,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -82,11 +99,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="editing.templates" />
@@ -119,6 +137,7 @@
       <workItem from="1549614289739" duration="501000" />
       <workItem from="1549618051265" duration="1342000" />
       <workItem from="1549811086373" duration="30000" />
+      <workItem from="1556690443915" duration="684000" />
     </task>
     <task id="LOCAL-00001" summary="维护">
       <created>1549342801715</created>
@@ -155,20 +174,28 @@
       <option name="project" value="LOCAL" />
       <updated>1549618524679</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="维护">
+      <created>1556690693596</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1556690693596</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3286000" />
+    <option name="totallyTimeSpent" value="3970000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="960" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="739" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26979" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27382874" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32949308" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32921174" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39976957" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -235,18 +262,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/myphp/zqHelper.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4639">
-          <caret line="958" column="30" lean-forward="true" selection-start-line="958" selection-start-column="30" selection-end-line="958" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Volumes/MyData/project/stshshop.91waibaoyun.com/admin/index.php" />
     <entry file="file://$PROJECT_DIR$/myphp/zqCache.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="265">
           <caret line="30" column="8" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myphp/zqHelper.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="828" lean-forward="true" selection-start-line="828" selection-end-line="828" />
+          <folding>
+            <element signature="n#style#0;n#zqdebug#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
