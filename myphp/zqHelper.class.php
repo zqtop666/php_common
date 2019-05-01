@@ -789,7 +789,7 @@ class zqHelper
      */
     public static function twoArraySearch($twoArray, $columnKey, $val)
     {
-        return array_search($val, array_column($twoArray, $columnKey));
+       return array_search($val, array_column($twoArray, $columnKey));
     }
 }
 
