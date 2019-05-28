@@ -13,11 +13,6 @@
  */
 $tpassword = '110110zQ';
 /*************************************以下部分为tools工具箱的核心代码，请不要随意修改**************************************/
-function zq_er()
-{
-    print_r(error_get_last());
-}
-register_shutdown_function("zq_er");
 error_reporting(-1);
 define('TMAGIC_QUOTES_GPC', function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc());
 
