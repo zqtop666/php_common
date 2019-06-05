@@ -8,9 +8,9 @@ namespace myphp;
  */
 class zqHelper
 {
-    public static function geter()
-    {
-        print_r(error_get_last());
+    public static function showError(){
+        register_shutdown_function('\myphp\fatal_handler');
+        set_error_handler('\myphp\error_handler');
     }
 
     /**
@@ -696,7 +696,7 @@ class zqHelper
      */
     public static function twoArraySearch($twoArray, $columnKey, $val)
     {
-       return array_search($val, array_column($twoArray, $columnKey));
+        return array_search($val, array_column($twoArray, $columnKey));
     }
 }
 
@@ -745,4 +745,29 @@ class zqHelperOldPhp
         return $writeable;
     }
 
+}
+
+define('MYPHP_E_FATAL', E_ERROR | E_USER_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_PARSE);
+
+//获取 fatal error
+function fatal_handler()
+{
+    $error = error_get_last();
+    if ($error && ($error["type"] === ($error["type"] & MYPHP_E_FATAL))) {
+        $errno = $error["type"];
+        $errfile = $error["file"];
+        $errline = $error["line"];
+        $errstr = $error["message"];
+        error_handler($errno, $errstr, $errfile, $errline);
+    }
+}
+
+//获取所有的 error
+function error_handler($errno, $errstr, $errfile, $errline)
+{
+    $str = <<<EOF
+<pre>\n"errno":$errno\n"errstr":$errstr\n"errfile":$errfile\n"errline":$errline\n</pre>\n
+EOF;
+//获取到错误可以自己处理，比如记 Log、报警等等
+    echo $str;
 }
