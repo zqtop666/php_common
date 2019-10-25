@@ -1,4 +1,6 @@
 <?php
+//DT_CACHE的文件夹名称
+define('DT_CACHEDIR', 'zqCacheData');
 //_FILE_在二级目录
 define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");
 define('IN_CACHE', 1);
@@ -6,8 +8,8 @@ define('IN_CACHE', 1);
 define('DT_WIN', strpos(strtoupper(PHP_OS), 'WIN') !== false ? true : false);
 define('DT_CHMOD', (0777 && !DT_WIN) ? 0777 : 0);
 define('DT_PATH', "http://" . $_SERVER['HTTP_HOST']);
-//DT_CACHE在/zqCacheData/
-define('DT_CACHE', DT_ROOT . "/zqCacheData");
+//DT_CACHE在
+define('DT_CACHE', DT_ROOT . "/" . DT_CACHEDIR);
 //region 方法
 if (!function_exists('file_put_contents')) {
     define('FILE_APPEND', 8);
@@ -133,12 +135,12 @@ class zqCache
     public static function dir_create($path)
     {
         if (is_dir($path)) return true;
-        if (DT_CACHE != DT_ROOT . "/data/mydata/mycache" && strpos($path, DT_CACHE) !== false) {
-            $dir     = str_replace(DT_CACHE . '/', '', $path);
-            $dir     = self::dir_path($dir);
-            $temp    = explode('/', $dir);
+        if (DT_CACHE != DT_ROOT . "/" . DT_CACHEDIR && strpos($path, DT_CACHE) !== false) {
+            $dir = str_replace(DT_CACHE . '/', '', $path);
+            $dir = self::dir_path($dir);
+            $temp = explode('/', $dir);
             $cur_dir = DT_CACHE . '/';
-            $max     = count($temp) - 1;
+            $max = count($temp) - 1;
             for ($i = 0; $i < $max; $i++) {
                 $cur_dir .= $temp[$i] . '/';
                 if (is_dir($cur_dir)) continue;
@@ -146,11 +148,11 @@ class zqCache
                 if (DT_CHMOD) @chmod($cur_dir, DT_CHMOD);
             }
         } else {
-            $dir     = str_replace(DT_ROOT . '/', '', $path);
-            $dir     = self::dir_path($dir);
-            $temp    = explode('/', $dir);
+            $dir = str_replace(DT_ROOT . '/', '', $path);
+            $dir = self::dir_path($dir);
+            $temp = explode('/', $dir);
             $cur_dir = DT_ROOT . '/';
-            $max     = count($temp) - 1;
+            $max = count($temp) - 1;
             for ($i = 0; $i < $max; $i++) {
                 $cur_dir .= $temp[$i] . '/';
                 if (is_dir($cur_dir)) continue;
@@ -166,7 +168,7 @@ class zqCache
         if (!$require) $require = substr($dir, -1) == '*' ? 2 : 0;
         if ($require) {
             if ($require == 2) $dir = substr($dir, 0, -1);
-            $dir  = self::dir_path($dir);
+            $dir = self::dir_path($dir);
             $list = glob($dir . '*');
             foreach ($list as $v) {
                 if (is_dir($v)) {
@@ -186,7 +188,7 @@ class zqCache
     public static function dir_copy($fromdir, $todir)
     {
         $fromdir = self::dir_path($fromdir);
-        $todir   = self::dir_path($todir);
+        $todir = self::dir_path($todir);
         if (!is_dir($fromdir)) return false;
         if (!is_dir($todir)) self::dir_create($todir);
         $list = glob($fromdir . '*');
@@ -289,7 +291,7 @@ class zqCache
     public static function cache_write($file, $string, $dir = '')
     {
         if (is_array($string)) $string = "<?php defined('IN_CACHE') or exit('Access Denied'); return " . self::strip_nr(var_export($string, true)) . "; ?>";
-        $file   = $dir ? DT_CACHE . '/' . $dir . '/' . $file : DT_CACHE . '/' . $file;
+        $file = $dir ? DT_CACHE . '/' . $dir . '/' . $file : DT_CACHE . '/' . $file;
         $strlen = self::file_put($file, $string);
         return $strlen;
     }
