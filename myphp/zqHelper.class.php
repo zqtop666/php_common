@@ -664,7 +664,7 @@ class zqHelper
     {
         return array_search($val, array_column($twoArray, $columnKey));
     }
-    public static function common_utf8StringToArray($str){
+    public static function str_utf8StringToArray($str){
         $result = array();
         $len = strlen($str);
         $i = 0;
