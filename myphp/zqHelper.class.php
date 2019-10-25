@@ -8,16 +8,11 @@ namespace myphp;
  */
 class zqHelper
 {
-    public static function showError(){
-        register_shutdown_function('\myphp\fatal_handler');
-        set_error_handler('\myphp\error_handler');
-    }
-
     /**
      * 当前微妙数
      * @return number
      */
-    public static function microtime_float()
+    public static function common_microtime_float()
     {
         list ($usec, $sec) = explode(" ", microtime());
         return (( float )$usec + ( float )$sec);
@@ -29,7 +24,7 @@ class zqHelper
      * @param boolean $all true表示递归遍历
      * @return array
      */
-    public static function scanfDir($dir = '', $all = false, &$ret = array())
+    public static function IO_scanfDir($dir = '', $all = false, &$ret = array())
     {
         if (false !== ($handle = opendir($dir))) {
             while (false !== ($file = readdir($handle))) {
@@ -54,7 +49,7 @@ class zqHelper
      * @param string $default
      * @return string
      */
-    public static function utf8_gb2312($str, $default = 'gb2312')
+    public static function str_utf8_gb2312($str, $default = 'gb2312')
     {
         $str = preg_replace("/[\x01-\x7F]+/", "", $str);
         if (empty($str)) {
@@ -86,7 +81,7 @@ class zqHelper
      * @param string $outEncoding
      * @return unknown|string
      */
-    public static function safeEncoding($string, $outEncoding = 'UTF-8')
+    public static function str_safeEncoding($string, $outEncoding = 'UTF-8')
     {
         $encoding = "UTF-8";
         for ($i = 0; $i < strlen($string); $i++) {
@@ -125,7 +120,7 @@ class zqHelper
     /**
      * 格式化单位
      */
-    public static function byteFormat($size, $dec = 2)
+    public static function common_byteFormat($size, $dec = 2)
     {
         $a = array("B", "KB", "MB", "GB", "TB", "PB");
         $pos = 0;
@@ -143,7 +138,7 @@ class zqHelper
      * @param string $filename 要保存的文件名(不含扩展名)
      * @return mixed 下载成功返回一个描述图片信息的数组，下载失败则返回false
      */
-    public static function downloadImage($url, $filepath, $filename)
+    public static function net_downloadImage($url, $filepath, $filename)
     {
         //服务器返回的头信息
         $responseHeaders = array();
@@ -219,7 +214,7 @@ class zqHelper
      * 以关联数组形式返回
      * author: flynetcn
      */
-    public static function deepScanDir($dir)
+    public static function IO_deepScanDir($dir)
     {
         $fileArr = array();
         $dirArr = array();
@@ -247,7 +242,7 @@ class zqHelper
      * 以数组形式返回
      * author: flynetcn
      */
-    public static function get_dir_files($dir)
+    public static function IO_get_dir_files($dir)
     {
         if (is_file($dir)) {
             return array($dir);
@@ -274,7 +269,7 @@ class zqHelper
     /**
      * 删除文件夹及其文件夹下所有文件
      */
-    public static function deldir($dir)
+    public static function IO_deldir($dir)
     {
         //先删除目录下的文件：
         $dh = opendir($dir);
@@ -300,7 +295,7 @@ class zqHelper
     /**
      * 清理session
      */
-    public static function unSession()
+    public static function common_unSession()
     {
         if (session_start()) {
             session_destroy();
@@ -311,7 +306,7 @@ class zqHelper
      * 获得真实IP地址
      * @return string
      */
-    public static function realIp()
+    public static function common_realIp()
     {
         static $realip = null;
         if ($realip !== null) {
@@ -354,7 +349,7 @@ class zqHelper
      * 创建目录
      * @param string $dir
      */
-    public static function createDir($dir)
+    public static function IO_createDir($dir)
     {
         if (!is_dir($dir)) {
             mkdir($dir, 0777);
@@ -365,7 +360,7 @@ class zqHelper
      * 创建文件（默认为空）
      * @param unknown_type $filename
      */
-    public static function createFile($filename)
+    public static function IO_createFile($filename)
     {
         if (!is_file($filename)) {
             touch($filename);
@@ -376,7 +371,7 @@ class zqHelper
      * 删除文件
      * @param string $filename
      */
-    public static function delFile($filename)
+    public static function IO_delFile($filename)
     {
         if (file_exists($filename)) {
             unlink($filename);
@@ -387,7 +382,7 @@ class zqHelper
      * 删除目录
      * @param string $path
      */
-    public static function delDirOne($path)
+    public static function IO_delDirOne($path)
     {
         if (is_dir($path)) {
             rmdir($path);
@@ -399,7 +394,7 @@ class zqHelper
      * @param string $dir
      * @return bool
      */
-    public static function delDirOfAll($dir)
+    public static function IO_delDirOfAll($dir)
     {
         //先删除目录下的文件：
         if (is_dir($dir)) {
@@ -432,7 +427,7 @@ class zqHelper
      * @param string $name 生成图像名称
      * @param string $filetype文件类型 (.jpg/.gif/.png)
      */
-    public static function resizeImage($im, $maxwidth, $maxheight, $name, $filetype)
+    public static function common_resizeImage($im, $maxwidth, $maxheight, $name, $filetype)
     {
         $pic_width = imagesx($im);
         $pic_height = imagesy($im);
@@ -480,7 +475,7 @@ class zqHelper
      * 下载文件
      * @param string $file_path 绝对路径
      */
-    public static function downFile($file_path)
+    public static function net_downFile($file_path)
     {
         //判断文件是否存在
         $file_path = iconv('utf-8', 'gb2312', $file_path); //对可能出现的中文名称进行转码
@@ -505,7 +500,7 @@ class zqHelper
         fclose($fp); //关闭文件
     }
 
-    public static function getCwdOL()
+    public static function common_getCwdOL()
     {
         $total = $_SERVER[PHP_SELF];
         $file = explode("/", $total);
@@ -513,14 +508,14 @@ class zqHelper
         return substr($total, 0, strlen($total) - strlen($file) - 1);
     }
 
-    public static function getSiteUrl()
+    public static function common_getSiteUrl()
     {
         $host = $_SERVER[SERVER_NAME];
         $port = ($_SERVER[SERVER_PORT] == "80") ? "" : ":$_SERVER[SERVER_PORT]";
         return "http://" . $host . $port . Helper::getcwdOL();
     }
 
-    public static function getCurUrl()
+    public static function common_getCurUrl()
     {
         $host = $_SERVER[SERVER_NAME];
         $port = ($_SERVER[SERVER_PORT] == "80") ? "" : ":$_SERVER[SERVER_PORT]";
@@ -536,7 +531,7 @@ class zqHelper
      * @param boolean $strict 是否严谨 默认为true
      * @return void|string
      */
-    public static function dump($var, $echo = true, $label = null, $strict = true)
+    public static function debug_dump($var, $echo = true, $label = null, $strict = true)
     {
         $label = ($label === null) ? '' : rtrim($label) . ' ';
         if (!$strict) {
@@ -562,7 +557,7 @@ class zqHelper
             return $output;
     }
 
-    public static function setglobal($key, $value, $group = null)
+    public static function common_setglobal($key, $value, $group = null)
     {
         global $_G;
         $key = explode('/', $group === null ? $key : $group . '/' . $key);
@@ -577,7 +572,7 @@ class zqHelper
         return true;
     }
 
-    public static function getglobal($key, $group = null)
+    public static function common_getglobal($key, $group = null)
     {
         global $_G;
         $key = explode('/', $group === null ? $key : $group . '/' . $key);
@@ -591,7 +586,7 @@ class zqHelper
         return $v;
     }
 
-    static public function curlGet($url, $timeout = 5, $header = '')
+    static public function net_curlGet($url, $timeout = 5, $header = '')
     {
         $header1 = "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.12) Gecko/20181026 Firefox/3.6.12\r\n";
         $header1 .= "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
@@ -617,7 +612,7 @@ class zqHelper
         return $result;
     }
 
-    static public function curlPost($url, $post_data = array(), $timeout = 5, $header = '', $data_type = '')
+    static public function net_curlPost($url, $post_data = array(), $timeout = 5, $header = '', $data_type = '')
     {
         $header = empty($header) ? '' : $header;
 
@@ -650,36 +645,7 @@ class zqHelper
         return $result;
     }
 
-    /***
-     * @param $option DEBUG_BACKTRACE_PROVIDE_OBJECT或者DEBUG_BACKTRACE_IGNORE_ARGS
-     * @param $echoStr TraceTop后面追加的字符串
-     * @param $condition 条件表达式
-     */
-    public static function zqTraceTop($option, $echoStr = '', $condition = '')
-    {
-        if (isset($_REQUEST['zqTrace'])) {
-            $ZQ = false;
-            if ($condition) {
-                $CON = "\$ZQ=(" . $condition . ");";
-                eval($CON);
-            } else {
-                $ZQ = true;
-            }
-            if ($ZQ) {
-                $backtrace = debug_backtrace($option);
-                $con = @file_get_contents($_REQUEST['zqTrace'] . ".php");
-                if ($con) {
-                    $con .= "\n";
-                    $con .= "\"$echoStr\";\n\n\n";
-                } else {
-                    $con = "<?php ";
-                }
-                file_put_contents($_REQUEST['zqTrace'] . ".php", $con . var_export($backtrace[(count($backtrace) - 1)], true) . ";");
-            }
-        }
-    }
-
-    public static function myDebug($var, $type = 'print')
+    public static function debug_myDebug($var, $type = 'print')
     {
         $var = var_export($var, true);
         if ($type === 'print')
@@ -694,9 +660,37 @@ class zqHelper
      * @param $val
      * @return false|int|string 二维数组查找
      */
-    public static function twoArraySearch($twoArray, $columnKey, $val)
+    public static function common_twoArraySearch($twoArray, $columnKey, $val)
     {
         return array_search($val, array_column($twoArray, $columnKey));
+    }
+    public static function common_utf8StringToArray($str){
+        $result = array();
+        $len = strlen($str);
+        $i = 0;
+        while($i < $len){
+            $chr = ord($str[$i]);
+            if($chr == 9 || $chr == 10 || (32 <= $chr && $chr <= 126)) {
+                $result[] = substr($str,$i,1);
+                $i +=1;
+            }elseif(192 <= $chr && $chr <= 223){
+                $result[] = substr($str,$i,2);
+                $i +=2;
+            }elseif(224 <= $chr && $chr <= 239){
+                $result[] = substr($str,$i,3);
+                $i +=3;
+            }elseif(240 <= $chr && $chr <= 247){
+                $result[] = substr($str,$i,4);
+                $i +=4;
+            }elseif(248 <= $chr && $chr <= 251){
+                $result[] = substr($str,$i,5);
+                $i +=5;
+            }elseif(252 <= $chr && $chr <= 253){
+                $result[] = substr($str,$i,6);
+                $i +=6;
+            }
+        }
+        return $result;
     }
 }
 
@@ -745,29 +739,4 @@ class zqHelperOldPhp
         return $writeable;
     }
 
-}
-
-define('MYPHP_E_FATAL', E_ERROR | E_USER_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_PARSE);
-
-//获取 fatal error
-function fatal_handler()
-{
-    $error = error_get_last();
-    if ($error && ($error["type"] === ($error["type"] & MYPHP_E_FATAL))) {
-        $errno = $error["type"];
-        $errfile = $error["file"];
-        $errline = $error["line"];
-        $errstr = $error["message"];
-        error_handler($errno, $errstr, $errfile, $errline);
-    }
-}
-
-//获取所有的 error
-function error_handler($errno, $errstr, $errfile, $errline)
-{
-    $str = <<<EOF
-<pre>\n"errno":$errno\n"errstr":$errstr\n"errfile":$errfile\n"errline":$errline\n</pre>\n
-EOF;
-//获取到错误可以自己处理，比如记 Log、报警等等
-    echo $str;
 }
