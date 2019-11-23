@@ -1,11 +1,12 @@
 <?php
+
 /*
  * 部署方法：
  * 1、在模板编译方法中埋zq_page($from)  (记得判断方法exists)，
  * 2、在模板引擎方法中加入：(defined('ZQ_PAGE') && ZQ_PAGE) 为真时强行调用模板编译方法。
  */
 define('ZQ_PAGE', 1);
-define('ZQ_DBG', 1);
+define('ZQ_DBG', 0);
 
 if (!function_exists("zq_var")) {
     function zq_var($source)
@@ -24,6 +25,9 @@ if (!function_exists("zq_page")) {
             $jquery = "<script src='http://code.jquery.com/jquery-1.11.1.min.js'></script><script src='http://libs.baidu.com/jquery/1.11.1/jquery.min.js'></script>";
             $script = "<script>jQuery(function(){ jQuery('body').prepend(jQuery(\"{$str}\")); });</script>";
             return $jquery . $script;
+        }
+        else{
+            return "";
         }
     }
 }
