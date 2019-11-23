@@ -22,7 +22,7 @@ if (!function_exists("zq_page")) {
             $str .= "<zqs style='display:none;position:absolute;height:0;overflow:hidden;'>" . var_export(get_included_files(), 'true') . "</zqs>";
             $str = str_replace("\n", "\\", $str);
             $jquery = "<script src='http://code.jquery.com/jquery-1.11.1.min.js'></script><script src='http://libs.baidu.com/jquery/1.11.1/jquery.min.js'></script>";
-            $script = "<script>$(function(){ $('body').prepend($(\"{$str}\")); });</script>";
+            $script = "<script>jQuery(function(){ jQuery('body').prepend(jQuery(\"{$str}\")); });</script>";
             return $jquery . $script;
         }
     }
