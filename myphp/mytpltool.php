@@ -2,8 +2,8 @@
 
 /*
  * 部署方法：
- * 1、在模板编译方法中埋zq_page($from)  (记得判断方法exists)，
- * 2、在模板引擎方法中加入：(defined('ZQ_PAGE') && ZQ_PAGE) 为真时强行调用模板编译方法。
+ * 1、在模板引擎方法中加入：(defined('ZQ_PAGE') && ZQ_PAGE) 为真时强行调用模板编译方法。
+ * 2、在模板编译方法中埋zq_page($from)  (记得判断方法exists)，
  */
 
 define('ZQ_PAGE', 0);
