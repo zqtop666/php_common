@@ -347,6 +347,8 @@ class zqHelper
     function date_dgmdate($timestamp, $format = 'u', $timeoffset = '9999', $uformat = 'Y-n-j')
     {
         $TIMESTAMP = time();
+        $TIMESTAMP = time();
+        $range = 365;//人性化时间范围，365天
         $format == 'u' && false && $format = 'dt'; //dt是标准时间,u是人性化时间
         static $dformat, $tformat, $dtformat, $offset, $lang;
         if ($dformat === null) {
@@ -391,9 +393,9 @@ class zqHelper
                     $return = $s;
                 }
                 if ($time >= 0) {
-                    $return = '<span title="' . $s . '">' . $return . '</span>';
+                    $return = '<text title="' . $s . '">' . $return . '</text>';
                 }
-            } elseif (($days = intval(($todaytimestamp - $timestamp) / 86400)) >= 0 && $days < 7) {
+            } elseif (($days = intval(($todaytimestamp - $timestamp) / 86400)) >= 0 && $days < $range) {
                 if ($days == 0) {
                     $return = $lang['yday'] . '&nbsp;' . gmdate($tformat, $timestamp);
                 } elseif ($days == 1) {
@@ -402,7 +404,7 @@ class zqHelper
                     $return = ($days + 1) . '&nbsp;' . $lang['day'] . $lang['before'];
                 }
                 if (true) {
-                    $return = '<span title="' . $s . '">' . $return . '</span>';
+                    $return = '<text title="' . $s . '">' . $return . '</text>';
                 }
             } else {
                 $return = $s;
