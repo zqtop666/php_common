@@ -344,6 +344,74 @@ class zqHelper
         $realip = !empty($onlineip[0]) ? $onlineip[0] : '0.0.0.0';
         return $realip;
     }
+    function date_dgmdate($timestamp, $format = 'u', $timeoffset = '9999', $uformat = 'Y-n-j')
+    {
+        $TIMESTAMP = time();
+        $format == 'u' && false && $format = 'dt'; //dt是标准时间,u是人性化时间
+        static $dformat, $tformat, $dtformat, $offset, $lang;
+        if ($dformat === null) {
+            $dformat = 'Y-n-j';
+            $tformat = 'H:i';
+            $dtformat = $dformat . ' ' . $tformat;
+            $offset = '8'; //8 //timeoffset
+            $sysoffset = '8'; // timeoffset
+            $offset = $offset == 9999 ? ($sysoffset ? $sysoffset : 0) : $offset; //8
+            $lang = array(
+                'before' => '前',
+                'day' => '天',
+                'yday' => '昨天',
+                'byday' => '前天',
+                'hour' => '小时',
+                'half' => '半',
+                'min' => '分钟',
+                'sec' => '秒',
+                'now' => '刚刚',
+            );
+
+        }
+        $timeoffset = $timeoffset == 9999 ? $offset : $timeoffset;
+        $timestamp += $timeoffset * 3600;
+        $format = empty($format) || $format == 'dt' ? $dtformat : ($format == 'd' ? $dformat : ($format == 't' ? $tformat : $format));
+        if ($format == 'u') {
+            $todaytimestamp = $TIMESTAMP - ($TIMESTAMP + $timeoffset * 3600) % 86400 + $timeoffset * 3600;
+            $s = gmdate(!$uformat ? $dtformat : $uformat, $timestamp);
+            $time = $TIMESTAMP + $timeoffset * 3600 - $timestamp;
+            if ($timestamp >= $todaytimestamp) {
+                if ($time > 3600) {
+                    $return = intval($time / 3600) . '&nbsp;' . $lang['hour'] . $lang['before'];
+                } elseif ($time > 1800) {
+                    $return = $lang['half'] . $lang['hour'] . $lang['before'];
+                } elseif ($time > 60) {
+                    $return = intval($time / 60) . '&nbsp;' . $lang['min'] . $lang['before'];
+                } elseif ($time > 0) {
+                    $return = $time . '&nbsp;' . $lang['sec'] . $lang['before'];
+                } elseif ($time == 0) {
+                    $return = $lang['now'];
+                } else {
+                    $return = $s;
+                }
+                if ($time >= 0) {
+                    $return = '<span title="' . $s . '">' . $return . '</span>';
+                }
+            } elseif (($days = intval(($todaytimestamp - $timestamp) / 86400)) >= 0 && $days < 7) {
+                if ($days == 0) {
+                    $return = $lang['yday'] . '&nbsp;' . gmdate($tformat, $timestamp);
+                } elseif ($days == 1) {
+                    $return = $lang['byday'] . '&nbsp;' . gmdate($tformat, $timestamp);
+                } else {
+                    $return = ($days + 1) . '&nbsp;' . $lang['day'] . $lang['before'];
+                }
+                if (true) {
+                    $return = '<span title="' . $s . '">' . $return . '</span>';
+                }
+            } else {
+                $return = $s;
+            }
+            return $return;
+        } else {
+            return gmdate($format, $timestamp);
+        }
+    }
 
     /**
      * 创建目录
