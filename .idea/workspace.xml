@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="840bf2c1-13ea-4dc0-9022-d08cffdaf54b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myphp/code_batch.php" beforeDir="false" afterPath="$PROJECT_DIR$/myphp/fileCodeConvert_batch.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myphp/mytpltool.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myphp/zqCache.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/myphp/fileCache.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myphp/zqHelper.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/myphp/myHelper.class.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +106,7 @@
       <workItem from="1581997190378" duration="52000" />
       <workItem from="1581997795833" duration="44000" />
       <workItem from="1612692746439" duration="594000" />
+      <workItem from="1674621430769" duration="4150000" />
     </task>
     <task id="LOCAL-00001" summary="维护">
       <created>1549342801715</created>
@@ -192,6 +197,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />

@@ -6,7 +6,7 @@ namespace myphp;
  * @author www.shouce.ren
  *
  */
-class zqHelper
+class myHelper
 {
     /**
      * 当前微妙数
@@ -208,7 +208,6 @@ class zqHelper
         return false;
     }
 
-
     /**
      * 取得输入目录所包含的所有目录和文件
      * 以关联数组形式返回
@@ -344,7 +343,16 @@ class zqHelper
         $realip = !empty($onlineip[0]) ? $onlineip[0] : '0.0.0.0';
         return $realip;
     }
-    function date_dgmdate($timestamp, $format = 'u', $timeoffset = '9999', $uformat = 'Y-n-j')
+
+    /**
+     * 日期人性化(来自DZ)
+     * @param $timestamp
+     * @param string $format dt是标准时间,u是人性化时间
+     * @param string $timeoffset 向后偏移小时数
+     * @param string $uformat 日期格式默认 Y-n-j
+     * @return false|mixed|string
+     */
+    public static function date_dgmdate($timestamp, $format = 'u', $timeoffset = '9999', $uformat = 'Y-n-j')
     {
         $TIMESTAMP = time();
         $TIMESTAMP = time();
@@ -570,6 +578,10 @@ class zqHelper
         fclose($fp); //关闭文件
     }
 
+    /**
+     * 获取当前脚本文件目录
+     * @return false|string
+     */
     public static function common_getCwdOL()
     {
         $total = $_SERVER[PHP_SELF];
@@ -578,13 +590,10 @@ class zqHelper
         return substr($total, 0, strlen($total) - strlen($file) - 1);
     }
 
-    public static function common_getSiteUrl()
-    {
-        $host = $_SERVER[SERVER_NAME];
-        $port = ($_SERVER[SERVER_PORT] == "80") ? "" : ":$_SERVER[SERVER_PORT]";
-        return "http://" . $host . $port . Helper::getcwdOL();
-    }
-
+    /**
+     * 获取当前URL（带端口）
+     * @return string
+     */
     public static function common_getCurUrl()
     {
         $host = $_SERVER[SERVER_NAME];
@@ -627,35 +636,13 @@ class zqHelper
             return $output;
     }
 
-    public static function common_setglobal($key, $value, $group = null)
-    {
-        global $_G;
-        $key = explode('/', $group === null ? $key : $group . '/' . $key);
-        $p = &$_G;
-        foreach ($key as $k) {
-            if (!isset($p[$k]) || !is_array($p[$k])) {
-                $p[$k] = array();
-            }
-            $p = &$p[$k];
-        }
-        $p = $value;
-        return true;
-    }
-
-    public static function common_getglobal($key, $group = null)
-    {
-        global $_G;
-        $key = explode('/', $group === null ? $key : $group . '/' . $key);
-        $v = &$_G;
-        foreach ($key as $k) {
-            if (!isset($v[$k])) {
-                return null;
-            }
-            $v = &$v[$k];
-        }
-        return $v;
-    }
-
+    /**
+     * curl请求Get
+     * @param string $url 请求url
+     * @param int $timeout 请求超时时间
+     * @param string $header 请求头
+     * @return bool|string
+     */
     static public function net_curlGet($url, $timeout = 5, $header = '')
     {
         $header1 = "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.12) Gecko/20181026 Firefox/3.6.12\r\n";
@@ -682,6 +669,15 @@ class zqHelper
         return $result;
     }
 
+    /**
+     * curl请求Post
+     * @param $url $url 请求url
+     * @param array $post_data 请求数据
+     * @param int $timeout 请求超时时间
+     * @param string $header 请求头
+     * @param string $data_type 数据类型
+     * @return bool|string
+     */
     static public function net_curlPost($url, $post_data = array(), $timeout = 5, $header = '', $data_type = '')
     {
         $header = empty($header) ? '' : $header;
@@ -715,15 +711,6 @@ class zqHelper
         return $result;
     }
 
-    public static function debug_myDebug($var, $type = 'print')
-    {
-        $var = var_export($var, true);
-        if ($type === 'print')
-            echo "<zqdebug style='display:none;'>$var</zqdebug>";
-        else if ($type === 'file')
-            file_put_contents('zqdebug_' . time() . '.txt', $var);
-    }
-
     /**
      * @param $twoArray
      * @param $columnKey
@@ -739,35 +726,41 @@ class zqHelper
      * @param $str
      * @return array
      */
-    public static function str_utf8StringToArray($str){
+    public static function str_utf8StringToArray($str)
+    {
         $result = array();
         $len = strlen($str);
         $i = 0;
-        while($i < $len){
+        while ($i < $len) {
             $chr = ord($str[$i]);
-            if($chr == 9 || $chr == 10 || (32 <= $chr && $chr <= 126)) {
-                $result[] = substr($str,$i,1);
-                $i +=1;
-            }elseif(192 <= $chr && $chr <= 223){
-                $result[] = substr($str,$i,2);
-                $i +=2;
-            }elseif(224 <= $chr && $chr <= 239){
-                $result[] = substr($str,$i,3);
-                $i +=3;
-            }elseif(240 <= $chr && $chr <= 247){
-                $result[] = substr($str,$i,4);
-                $i +=4;
-            }elseif(248 <= $chr && $chr <= 251){
-                $result[] = substr($str,$i,5);
-                $i +=5;
-            }elseif(252 <= $chr && $chr <= 253){
-                $result[] = substr($str,$i,6);
-                $i +=6;
+            if ($chr == 9 || $chr == 10 || (32 <= $chr && $chr <= 126)) {
+                $result[] = substr($str, $i, 1);
+                $i += 1;
+            } elseif (192 <= $chr && $chr <= 223) {
+                $result[] = substr($str, $i, 2);
+                $i += 2;
+            } elseif (224 <= $chr && $chr <= 239) {
+                $result[] = substr($str, $i, 3);
+                $i += 3;
+            } elseif (240 <= $chr && $chr <= 247) {
+                $result[] = substr($str, $i, 4);
+                $i += 4;
+            } elseif (248 <= $chr && $chr <= 251) {
+                $result[] = substr($str, $i, 5);
+                $i += 5;
+            } elseif (252 <= $chr && $chr <= 253) {
+                $result[] = substr($str, $i, 6);
+                $i += 6;
             }
         }
         return $result;
     }
-    function str_getRandomString($len, $chars = null)
+
+    /**
+     * @param $str
+     * @return array
+     */
+    public static function str_getRandomString($len, $chars = null)
     {
         if (is_null($chars)) {
             $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -778,10 +771,6 @@ class zqHelper
         }
         return $str;
     }
-}
-
-class zqHelperOldPhp
-{
 
     /**
      * 返回二维数组中某个键名的所有值
@@ -823,6 +812,389 @@ class zqHelperOldPhp
             }
         }
         return $writeable;
+    }
+
+    /**
+     * 根据IP判断城市
+     * @param $ip
+     * @return string
+     */
+    public static function detect_city($ip)
+    {
+
+        $default = 'UNKNOWN';
+
+        $curlopt_useragent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6 (.NET CLR 3.5.30729)';
+
+        $url = 'http://ipinfodb.com/ip_locator.php?ip=' . urlencode($ip);
+        $ch = curl_init();
+
+        $curl_opt = array(
+            CURLOPT_FOLLOWLOCATION => 1,
+            CURLOPT_HEADER => 0,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_USERAGENT => $curlopt_useragent,
+            CURLOPT_URL => $url,
+            CURLOPT_TIMEOUT => 1,
+            CURLOPT_REFERER => 'http://' . $_SERVER['HTTP_HOST'],
+        );
+
+        curl_setopt_array($ch, $curl_opt);
+
+        $content = curl_exec($ch);
+
+        if (!is_null($curl_info)) {
+            $curl_info = curl_getinfo($ch);
+        }
+
+        curl_close($ch);
+
+        if (preg_match('{<li>City : ([^<]*)</li>}i', $content, $regs)) {
+            $city = $regs[1];
+        }
+        if (preg_match('{<li>State/Province : ([^<]*)</li>}i', $content, $regs)) {
+            $state = $regs[1];
+        }
+
+        if ($city != '' && $state != '') {
+            $location = $city . ', ' . $state;
+            return $location;
+        } else {
+            return $default;
+        }
+
+    }
+
+    /**
+     * 获取web页面源码
+     * @param string $url 网页地址
+     * @return string 网页源码
+     */
+    public static function display_sourcecode($url)
+    {
+        $lines = file($url);
+        $output = "";
+        foreach ($lines as $line_num => $line) {
+            // loop thru each line and prepend line numbers
+            $output .= "Line #<b>{$line_num}</b> : " . htmlspecialchars($line) . "\n";
+        }
+    }
+
+    /**
+     * 强制性文件下载
+     * @param string $file
+     * @return string 文件名 或者 错误信息
+     */
+    public static function force_download($file)
+    {
+        $dir = "../log/exports/";
+        if ((isset($file)) && (file_exists($dir . $file))) {
+            header("Content-type: application/force-download");
+            header('Content-Disposition: inline; filename="' . $dir . $file . '"');
+            header("Content-Transfer-Encoding: Binary");
+            header("Content-length: " . filesize($dir . $file));
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $file . '"');
+            readfile("$dir$file");
+        } else {
+            echo "No file selected";
+        }
+    }
+
+    /**
+     * 压缩文件
+     * @param array $files 文件列表
+     * @param string $destination 压缩文件名
+     * @param false $overwrite
+     * @return bool 返回压缩文件名 on success, false on failure
+     */
+    public static function zip($files = array(), $destination = '', $overwrite = false)
+    {
+        //if the zip file already exists and overwrite is false, return false
+        if (file_exists($destination) && !$overwrite) {
+            return false;
+        }
+        //vars
+        $valid_files = array();
+        //if files were passed in...
+        if (is_array($files)) {
+            //cycle through each file
+            foreach ($files as $file) {
+                //make sure the file exists
+                if (file_exists($file)) {
+                    $valid_files[] = $file;
+                }
+            }
+        }
+        //if we have good files...
+        if (count($valid_files)) {
+            //create the archive
+            $zip = new ZipArchive();
+            if ($zip->open($destination, $overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
+                return false;
+            }
+            //add the files
+            foreach ($valid_files as $file) {
+                $zip->addFile($file, $file);
+            }
+            //debug
+            //echo 'The zip archive contains ',$zip->numFiles,' files with a status of ',$zip->status;
+
+            //close the zip -- done!
+            $zip->close();
+
+            //check to make sure the file exists
+            return file_exists($destination);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 解压文件
+     * @param string $location
+     * @param string $newLocation
+     * @return bool TRUE or FALSE
+     */
+    public static function unzip($location, $newLocation)
+    {
+        if (exec("unzip $location", $arr)) {
+            mkdir($newLocation);
+            for ($i = 1; $i < count($arr); $i++) {
+                $file = trim(preg_replace("~inflating: ~", "", $arr[$i]));
+                copy($location . '/' . $file, $newLocation . '/' . $file);
+                unlink($location . '/' . $file);
+            }
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * 缩放图片
+     * @param string $filename 图片名
+     * @param string $tmpname 临时文件名
+     * @param integer $xmax 最大宽度
+     * @param integer $ymax 最大高度
+     * @return false|\GdImage|resource 返回图片资源 或者 false 失败
+     */
+    public static function resize_image($filename, $tmpname, $xmax, $ymax)
+    {
+        $ext = explode(".", $filename);
+        $ext = $ext[count($ext) - 1];
+
+        if ($ext == "jpg" || $ext == "jpeg")
+            $im = imagecreatefromjpeg($tmpname);
+        elseif ($ext == "png")
+            $im = imagecreatefrompng($tmpname);
+        elseif ($ext == "gif")
+            $im = imagecreatefromgif($tmpname);
+
+        $x = imagesx($im);
+        $y = imagesy($im);
+
+        if ($x <= $xmax && $y <= $ymax)
+            return $im;
+
+        if ($x >= $y) {
+            $newx = $xmax;
+            $newy = $newx * $y / $x;
+        } else {
+            $newy = $ymax;
+            $newx = $x / $y * $newy;
+        }
+
+        $im2 = imagecreatetruecolor($newx, $newy);
+        imagecopyresized($im2, $im, 0, 0, 0, 0, floor($newx), floor($newy), $x, $y);
+        return $im2;
+    }
+
+    /**
+     * 把秒转换成天数，小时数和分钟数
+     * @param integer $secs
+     * @return string 天数，小时数和分钟数 例如：1 day, 4 hours, 2 minutes and 33 seconds
+     */
+    public static function secondsToStr($secs)
+    {
+        if ($secs >= 86400) {
+            $days = floor($secs / 86400);
+            $secs = $secs % 86400;
+            $r = $days . ' day';
+            if ($days <> 1) {
+                $r .= 's';
+            }
+            if ($secs > 0) {
+                $r .= ', ';
+            }
+        }
+        if ($secs >= 3600) {
+            $hours = floor($secs / 3600);
+            $secs = $secs % 3600;
+            $r .= $hours . ' hour';
+            if ($hours <> 1) {
+                $r .= 's';
+            }
+            if ($secs > 0) {
+                $r .= ', ';
+            }
+        }
+        if ($secs >= 60) {
+            $minutes = floor($secs / 60);
+            $secs = $secs % 60;
+            $r .= $minutes . ' minute';
+            if ($minutes <> 1) {
+                $r .= 's';
+            }
+            if ($secs > 0) {
+                $r .= ', ';
+            }
+        }
+        $r .= $secs . ' second';
+        if ($secs <> 1) {
+            $r .= 's';
+        }
+        return $r;
+    }
+
+    /**
+     * 目录下文件清单
+     * @param string $dir 目录路径
+     * @return array 文件清单
+     */
+    public static function filesList($dir)
+    {
+        $files = array();
+        if (is_dir($dir)) {
+            if ($handle = opendir($dir)) {
+                while (($file = readdir($handle)) !== false) {
+                    if ($file != "." && $file != "..") {
+                        $files[] = $file;
+                    }
+                }
+            }
+        }
+        return $files;
+    }
+
+    /**
+     * 搜索并文字，并高亮文字
+     * @param string $text 源文本
+     * @param string $words 搜索的文字
+     * @param string $color 高亮颜色
+     * @return array|mixed|string|string[]|null 正则替换后的文本
+     */
+    public static function highLighterText($text, $words, $color = "#4285F4")
+    {
+        $split_words = explode(" ", $words);
+        foreach ($split_words as $word) {
+            $text = preg_replace("|($word)|Ui",
+                "<span style=\"color:" . $color . ";\"><b>$1</b></span>", $text);
+        }
+        return $text;
+    }
+
+    /**
+     * 检测URL是否有效
+     * @param string $url URL
+     * @return int 1:有效 0:无效
+     */
+    public static  function isvalidURL($url)
+    {
+        $check = 0;
+        if (filter_var($url, FILTER_VALIDATE_URL) !== false) {
+            $check = 1;
+        }
+        return $check;
+    }
+
+    /**
+     * 调用在线接口生成二维码 http://chart.apis.google.com/chart
+     * @param $data string 数据
+     * @param string $type 类型 TXT,URL,TEL,EMAIL
+     * @param string $size 大小
+     * @param string $ec 纠错等级
+     * @param string $margin 边距
+     * @return bool|string 二维码图片
+     */
+    public static function qrCode($data, $type = "TXT", $size = '150', $ec = 'L', $margin = '0')
+    {
+        $types = array("URL" => "http://", "TEL" => "TEL:", "TXT" => "", "EMAIL" => "MAILTO:");
+        if (!in_array($type, array("URL", "TEL", "TXT", "EMAIL"))) {
+            $type = "TXT";
+        }
+        if (!preg_match('/^' . $types[$type] . '/', $data)) {
+            $data = str_replace("\\", "", $types[$type]) . $data;
+        }
+        $ch = curl_init();
+        $data = urlencode($data);
+        curl_setopt($ch, CURLOPT_URL, 'http://chart.apis.google.com/chart');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'chs=' . $size . 'x' . $size . '&cht=qr&chld=' . $ec . '|' . $margin . '&chl=' . $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+    /**
+     * 计算地图两点距离
+     * @param string $latitude1 纬度1
+     * @param string $longitude1 经度1
+     * @param string $latitude2 纬度2
+     * @param string $longitude2 经度2
+     * @return array 距离 miles feet yards kilometers meters
+     */
+    public static  function getDistanceBetweenPoints($latitude1, $longitude1, $latitude2, $longitude2)
+    {
+        $theta = $longitude1 - $longitude2;
+        $miles = (sin(deg2rad($latitude1)) * sin(deg2rad($latitude2))) + (cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * cos(deg2rad($theta)));
+        $miles = acos($miles);
+        $miles = rad2deg($miles);
+        $miles = $miles * 60 * 1.1515;
+        $feet = $miles * 5280;
+        $yards = $feet / 3;
+        $kilometers = $miles * 1.609344;
+        $meters = $kilometers * 1000;
+        return compact('miles', 'feet', 'yards', 'kilometers', 'meters');
+    }
+
+    /**
+     * 文字转图片 （直接返回图片响应体）
+     * @param string $text 文字
+     * @return unknown
+     */
+    public static function wordToImg($text)
+    {
+        header("Content-type: image/png");
+        $string = $text;
+        $im = imagecreatefrompng("images/button.png");
+        $color = imagecolorallocate($im, 255, 255, 255);
+        $px = (imagesx($im) - 7.5 * strlen($string)) / 2;
+        $py = 9;
+        $fontSize = 1;
+        imagestring($im, fontSize, $px, $py, $string, $color);
+        imagepng($im);
+        imagedestroy($im);
+    }
+
+    /**
+     * 调用在线接口生成短网址 http://tinyurl.com/api-create.php?url=
+     * @param string $url URL
+     * @return bool|string 短网址
+     */
+   public static function getTinyUrl($url)
+    {
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch, CURLOPT_URL, 'http://tinyurl.com/api-create.php?url=' . $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
     }
 
 }
